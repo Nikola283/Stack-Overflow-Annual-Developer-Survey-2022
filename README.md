@@ -13,14 +13,11 @@ Libraries Used
 Dataset Download
 To run the code, you need to download the Stack Overflow Developer Survey 2022 dataset using the Kaggle API. Use the following command:
 
-bash
-Copy code
+
 !kaggle datasets download -d dheemanthbhat/stack-overflow-annual-developer-survey-2022
 Dataset Extraction
 After downloading the dataset, unzip it using the provided Python code:
 
-python
-Copy code
 import zipfile
 
 zipfile_name = 'stack-overflow-annual-developer-survey-2022.zip'
@@ -32,64 +29,64 @@ The analysis includes several visualizations and insights. Here are some example
 Remote Working Preferences
 
 How much does remote working matter to employees?
-python
-Copy code
 df['RemoteWork'].value_counts()
 plot_df(df, 'RemoteWork', 'black')
 Coding Experience vs. Compensation
 
 How does coding experience affect the level of pay?
-python
-Copy code
-# Code to calculate and visualize coding experience vs. compensation
+df['YearsCode'] = pd.to_numeric(df['YearsCode'], errors='coerce')
+experience_groups = df.groupby('YearsCode')['CompTotal'].median()
+experience_groups
+experience_ranges = [(0, 5), (6, 10), (11, 15), (16, 20), (21, 25), (26, 30), (31, float('inf'))]
+x_labels = [f'{start}-{end} Years' for start, end in experience_ranges]
+median_compensation = []
+for start, end in experience_ranges:
+    subset = df[(df['YearsCode'] >= start) & (df['YearsCode'] <= end)]
+    median_compensation.append(subset['CompTotal'].median())
+formatted_compensation = [f'${round(val):,}' for val in median_compensation]
+fig = px.bar(x=x_labels, y=median_compensation, text=formatted_compensation)
+fig.update_layout(
+    title='Coding Experience vs. Median Compensation',
+    xaxis_title='Years of Coding Experience',
+    yaxis_title='Median Compensation',
+    xaxis=dict(tickangle=-45),
+    showlegend=False 
+)
+fig.show()
 Learning to Code
 
 What's the most popular method of learning to code?
-python
-Copy code
 df['LearnCode'].value_counts()
 plot_df2(df, 'LearnCode', 'green')
 Education Level and Job Opportunities
 
 Are you more likely to get a job as a developer if you have a master's degree?
-python
-Copy code
 df['EdLevel'].value_counts()
 plot_df(df, 'EdLevel', 'blue')
 Geographic Distribution
 
 Geographic distribution of respondents
-python
-Copy code
 df['Country'].value_counts()
 plot_df(df, 'Country', 'blue')
 Developer Types
 
 Types of developers and their distribution
-python
-Copy code
 df['DevType'].value_counts()
 plot_df2(df, 'DevType', 'yellow')
 Programming Languages
 
 Programming languages developers have worked with
-python
-Copy code
 df['LanguageHaveWorkedWith'].value_counts()
 plot_df2(df, 'LanguageHaveWorkedWith', 'orange')
 Gender Distribution
 
 Gender distribution among respondents
-python
-Copy code
-# Code for gender distribution pie chart
+gender_data = df[df['Gender'].isin(['Man', 'Woman'])]
+gender_data = gender_data['Gender'].value_counts()
 Company Size vs. Compensation
 
 At what company size do developers get paid the most?
-python
-Copy code
-# Code for company size vs. compensation analysis
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+df['PlatformHaveWorkedWith'].value_counts()
+df['ConvertedCompYearly'].value_counts()
 
 Feel free to explore and modify the code for your own analyses!
