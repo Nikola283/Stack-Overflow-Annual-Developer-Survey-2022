@@ -37,22 +37,6 @@ How does coding experience affect the level of pay?
 df['YearsCode'] = pd.to_numeric(df['YearsCode'], errors='coerce')
 experience_groups = df.groupby('YearsCode')['CompTotal'].median()
 experience_groups
-experience_ranges = [(0, 5), (6, 10), (11, 15), (16, 20), (21, 25), (26, 30), (31, float('inf'))]
-x_labels = [f'{start}-{end} Years' for start, end in experience_ranges]
-median_compensation = []
-for start, end in experience_ranges:
-    subset = df[(df['YearsCode'] >= start) & (df['YearsCode'] <= end)]
-    median_compensation.append(subset['CompTotal'].median())
-formatted_compensation = [f'${round(val):,}' for val in median_compensation]
-fig = px.bar(x=x_labels, y=median_compensation, text=formatted_compensation)
-fig.update_layout(
-    title='Coding Experience vs. Median Compensation',
-    xaxis_title='Years of Coding Experience',
-    yaxis_title='Median Compensation',
-    xaxis=dict(tickangle=-45),
-    showlegend=False 
-)
-fig.show()
 Learning to Code
 
 What's the most popular method of learning to code?
