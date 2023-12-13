@@ -73,4 +73,7 @@ At what company size do developers get paid the most?
 df['PlatformHaveWorkedWith'].value_counts()
 df['ConvertedCompYearly'].value_counts()
 
+Please see entire notebook from Jupyter Notebook Viewer
+Here is the link: https://nbviewer.org/github/Nikola283/Stack-Overflow-Annual-Developer-Survey-2022/blob/main/analysis_notebook.ipynb
+
 Feel free to explore and modify the code for your own analyses!
